@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home – Temple Darshan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9922a;
+      --gold-light: #f0c96a;
+      --deep: #1a0a00;
+      --warm: #2e1a00;
+      --cream: #fdf6e3;
+      --muted: #a0876a;
+      --card-bg: rgba(46,26,0,0.85);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--deep);
+      color: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: linear-gradient(90deg, #1a0a00, #2e1a00, #1a0a00);
+      border-bottom: 1px solid rgba(201,146,42,0.3);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+
+    .nav-brand {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .nav-brand span { color: var(--gold); font-size: 1.4rem; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav-user span { color: var(--muted); font-size: 0.82rem; }
+    .logout-btn {
+      background: transparent;
+      border: 1px solid rgba(201,146,42,0.4);
+      color: var(--gold);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { background: rgba(201,146,42,0.1); border-color: var(--gold-light); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201,146,42,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-om {
+      font-size: 4.5rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 60px rgba(240,201,106,0.6);
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%,100% { text-shadow: 0 0 40px rgba(240,201,106,0.5); }
+      50%      { text-shadow: 0 0 80px rgba(240,201,106,0.9); }
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .divider-line {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 300px;
+      margin: 0 auto 3rem;
+    }
+    .divider-line span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .divider-line i { color: var(--gold); font-style: normal; font-size: 0.8rem; }
+
+    /* STATS BAR */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(201,146,42,0.15);
+      border-bottom: 1px solid rgba(201,146,42,0.15);
+      background: rgba(46,26,0,0.4);
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* TEMPLE CARDS GRID */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .section-header p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .temple-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,146,42,0.2);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      animation: fadeIn 0.6s ease both;
+      cursor: pointer;
+    }
+
+    .temple-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201,146,42,0.55);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(201,146,42,0.1);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #3a1f00, #5a3000);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Placeholder temple silhouette */
+    .card-img-placeholder {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(160deg, #3a2000 0%, #5a3800 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: rgba(201,146,42,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-img-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(26,10,0,0.8));
+    }
+
+    .card-body { padding: 1.2rem 1.3rem 1.4rem; }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--gold-light);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .card-location {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .card-desc {
+      font-size: 0.83rem;
+      color: rgba(253,246,227,0.65);
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      background: rgba(201,146,42,0.12);
+      border: 1px solid rgba(201,146,42,0.25);
+      color: var(--gold);
+    }
+
+    .card-btn {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      border: none;
+      color: var(--deep);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .card-btn:hover { opacity: 0.85; transform: scale(1.03); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .temple-card:nth-child(2) { animation-delay: 0.1s; }
+    .temple-card:nth-child(3) { animation-delay: 0.2s; }
+    .temple-card:nth-child(4) { animation-delay: 0.3s; }
+    .temple-card:nth-child(5) { animation-delay: 0.4s; }
+    .temple-card:nth-child(6) { animation-delay: 0.5s; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2.5rem;
+      border-top: 1px solid rgba(201,146,42,0.15);
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+    }
+    footer span { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand"><span>🛕</span> Temple Darshan</div>
+  <ul class="nav-links">
+    <li><a href="/home" class="active">Home</a></li>
+    <li><a href="/temples">Temples</a></li>
+    <li><a href="/bookings">My Bookings</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+  <div class="nav-user">
+    <span>🙏 Welcome, Devotee</span>
+    <form action="/logout" method="POST" style="display:inline;">
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-om">ॐ</div>
+  <h1>Book Your<br/><em>Sacred Darshan</em></h1>
+  <p class="hero-sub">Experience the divine. Reserve your visit to India's most sacred temples with ease and grace.</p>
+  <div class="divider-line"><span></span><i>✦ ✦ ✦</i><span></span></div>
+</section>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">50+</div>
+    <div class="stat-label">Sacred Temples</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">12K+</div>
+    <div class="stat-label">Devotees Served</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Verified Bookings</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">Support Available</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Featured Temples</h2>
+    <p>Choose a temple to learn more and book your darshan slot</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Tirupati Balaji</div>
+        <div class="card-location">📍 Tirupati, Andhra Pradesh</div>
+        <div class="card-desc">One of the most visited pilgrimage sites in the world, dedicated to Lord Venkateswara.</div>
+        <div class="card-meta">
+          <span class="badge">Open Today</span>
+          <a href="/temple/1" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Meenakshi Amman</div>
+        <div class="card-location">📍 Madurai, Tamil Nadu</div>
+        <div class="card-desc">A historic temple dedicated to Goddess Meenakshi, a form of Parvati, with magnificent gopurams.</div>
+        <div class="card-meta">
+          <span class="badge">Open Today</span>
+          <a href="/temple/2" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Somnath Temple</div>
+        <div class="card-location">📍 Veraval, Gujarat</div>
+        <div class="card-desc">One of the twelve Jyotirlingas of Lord Shiva, standing majestically on the Arabian Sea coast.</div>
+        <div class="card-meta">
+          <span class="badge">Limited Slots</span>
+          <a href="/temple/3" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Kashi Vishwanath</div>
+        <div class="card-location">📍 Varanasi, Uttar Pradesh</div>
+        <div class="card-desc">One of the most sacred Jyotirlingas located along the holy Ganges river in ancient Kashi.</div>
+        <div class="card-meta">
+          <span class="badge">Open Today</span>
+          <a href="/temple/4" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Shirdi Sai Baba</div>
+        <div class="card-location">📍 Shirdi, Maharashtra</div>
+        <div class="card-desc">A revered shrine attracting millions of devotees from all faiths across India and beyond.</div>
+        <div class="card-meta">
+          <span class="badge">Open Today</span>
+          <a href="/temple/5" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="temple-card">
+      <div class="card-img-placeholder">🛕</div>
+      <div class="card-body">
+        <div class="card-title">Golden Temple</div>
+        <div class="card-location">📍 Amritsar, Punjab</div>
+        <div class="card-desc">The holiest Gurdwara of Sikhism, shimmering in gold and reflecting in the sacred Amrit Sarovar.</div>
+        <div class="card-meta">
+          <span class="badge">Open Today</span>
+          <a href="/temple/6" class="card-btn">Book Darshan</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Made with <span>❤️</span> for Devotees &nbsp;|&nbsp; Temple Darshan Booking Portal &nbsp;|&nbsp; <span>ॐ नमः शिवाय</span></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Darshan – Temple Darshan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9922a;
+      --gold-light: #f0c96a;
+      --deep: #1a0a00;
+      --warm: #2e1a00;
+      --cream: #fdf6e3;
+      --muted: #a0876a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Lato', sans-serif; background: var(--deep); color: var(--cream); min-height: 100vh; }
+
+    nav {
+      background: linear-gradient(90deg, #1a0a00, #2e1a00, #1a0a00);
+      border-bottom: 1px solid rgba(201,146,42,0.3);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+    .nav-brand { font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 1.15rem; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav-brand span { color: var(--gold); font-size: 1.4rem; }
+    .back-btn { display: flex; align-items: center; gap: 0.4rem; color: var(--gold); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Cinzel', serif; transition: opacity 0.2s; }
+    .back-btn:hover { opacity: 0.7; }
+
+    /* STEPS BAR */
+    .steps-bar {
+      background: rgba(46,26,0,0.6);
+      border-bottom: 1px solid rgba(201,146,42,0.15);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .step.active { color: var(--gold-light); }
+    .step.done { color: var(--gold); }
+    .step-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,146,42,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      font-family: 'Cinzel', serif;
+    }
+    .step.active .step-num {
+      background: var(--gold);
+      color: var(--deep);
+      border-color: var(--gold);
+    }
+    .step.done .step-num {
+      background: rgba(201,146,42,0.2);
+      border-color: var(--gold);
+    }
+    .step-connector {
+      width: 60px; height: 1px;
+      background: rgba(201,146,42,0.2);
+      margin: 0 0.5rem;
+      align-self: center;
+    }
+
+    /* PAGE LAYOUT */
+    .page-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) { .page-wrap { grid-template-columns: 1fr; } }
+
+    /* FORM CARD */
+    .form-card {
+      animation: fadeUp 0.6s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-section {
+      background: linear-gradient(160deg, #2e1a00, #1a0a00);
+      border: 1px solid rgba(201,146,42,0.2);
+      border-radius: 3px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-section h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid rgba(201,146,42,0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field { margin-bottom: 1.2rem; }
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,146,42,0.22);
+      border-radius: 2px;
+      padding: 0.72rem 0.9rem;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,146,42,0.1);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(160,135,106,0.45); }
+    select option { background: #2e1a00; color: var(--cream); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* SLOT SELECTOR */
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    .slot-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,146,42,0.2);
+      border-radius: 2px;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--cream);
+    }
+    .slot-btn:hover { border-color: var(--gold); background: rgba(201,146,42,0.08); }
+    .slot-btn.selected {
+      border-color: var(--gold);
+      background: rgba(201,146,42,0.15);
+      color: var(--gold-light);
+    }
+    .slot-btn.full {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .slot-time { font-family: 'Cinzel', serif; font-size: 0.85rem; display: block; margin-bottom: 0.2rem; }
+    .slot-tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .slot-btn.selected .slot-tag { color: var(--gold); }
+
+    /* DARSHAN TYPE */
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.8rem;
+    }
+    @media (max-width: 520px) { .type-grid { grid-template-columns: 1fr; } }
+
+    .type-card {
+      border: 1px solid rgba(201,146,42,0.2);
+      border-radius: 3px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .type-card:hover { border-color: var(--gold); background: rgba(201,146,42,0.05); }
+    .type-card.selected { border-color: var(--gold); background: rgba(201,146,42,0.12); }
+    .type-name { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold-light); margin-bottom: 0.3rem; }
+    .type-price { font-size: 0.78rem; color: var(--muted); }
+    .type-price.free { color: #7ed87e; }
+
+    /* SUMMARY SIDEBAR */
+    .summary-card {
+      background: linear-gradient(160deg, #2e1a00, #1a0a00);
+      border: 1px solid rgba(201,146,42,0.25);
+      border-radius: 3px;
+      padding: 1.8rem;
+      position: sticky;
+      top: 84px;
+    }
+
+    .summary-card h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 0.07em;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid rgba(201,146,42,0.15);
+    }
+
+    .summary-temple {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(201,146,42,0.07);
+      border: 1px solid rgba(201,146,42,0.15);
+      border-radius: 3px;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-icon { font-size: 2rem; }
+    .summary-name { font-family: 'Cinzel', serif; color: var(--cream); font-size: 0.88rem; }
+    .summary-loc { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+
+    .sum-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(201,146,42,0.07);
+    }
+    .sum-row:last-of-type { border-bottom: none; }
+    .sum-label { color: var(--muted); }
+    .sum-val { color: var(--cream); }
+    .sum-val.highlight { color: var(--gold-light); font-weight: 600; }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0 0;
+      margin-top: 0.5rem;
+      border-top: 1px solid rgba(201,146,42,0.2);
+    }
+    .total-label { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--gold-light); }
+    .total-val { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-light); }
+
+    .confirm-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #c9922a 0%, #f0c96a 50%, #c9922a 100%);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 2px;
+      color: var(--deep);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-position 0.4s, transform 0.15s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(201,146,42,0.3);
+    }
+    .confirm-btn:hover { background-position: right center; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(201,146,42,0.45); }
+
+    .terms {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.9rem;
+      line-height: 1.5;
+    }
+    .terms a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand"><span>🛕</span> Temple Darshan</div>
+  <a href="/temple/1" class="back-btn">← Temple Details</a>
+</nav>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="step done">
+    <div class="step-num">✓</div>
+    <span>Select Temple</span>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step active">
+    <div class="step-num">2</div>
+    <span>Book Slot</span>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <span>Confirm</span>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- LEFT: FORM -->
+  <div class="form-card">
+    <form action="/booking/confirm" method="POST">
+      <input type="hidden" name="temple_id" value="1"/>
+
+      <!-- PERSONAL DETAILS -->
+      <div class="form-section">
+        <h3>👤 Personal Details</h3>
+        <div class="field-row">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" name="full_name" placeholder="Enter full name" required/>
+          </div>
+          <div class="field">
+            <label>Mobile Number</label>
+            <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" required/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="your@email.com" required/>
+          </div>
+          <div class="field">
+            <label>Number of Devotees</label>
+            <select name="devotees">
+              <option value="1">1 Devotee</option>
+              <option value="2">2 Devotees</option>
+              <option value="3">3 Devotees</option>
+              <option value="4">4 Devotees</option>
+              <option value="5">5 Devotees</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATE & DARSHAN TYPE -->
+      <div class="form-section">
+        <h3>📅 Visit Date & Type</h3>
+        <div class="field-row">
+          <div class="field">
+            <label>Visit Date</label>
+            <input type="date" name="visit_date" required/>
+          </div>
+          <div class="field">
+            <label>ID Proof Type</label>
+            <select name="id_type">
+              <option>Aadhaar Card</option>
+              <option>PAN Card</option>
+              <option>Passport</option>
+              <option>Voter ID</option>
+              <option>Driving License</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Select Darshan Type</label>
+          <div class="type-grid">
+            <div class="type-card selected" onclick="selectType(this, 'General', 0)">
+              <div class="type-name">General</div>
+              <div class="type-price free">Free</div>
+            </div>
+            <div class="type-card" onclick="selectType(this, 'Special', 300)">
+              <div class="type-name">Special</div>
+              <div class="type-price">₹ 300 / person</div>
+            </div>
+            <div class="type-card" onclick="selectType(this, 'VIP', 500)">
+              <div class="type-name">VIP</div>
+              <div class="type-price">₹ 500 / person</div>
+            </div>
+          </div>
+          <input type="hidden" name="darshan_type" id="darshan_type_input" value="General"/>
+        </div>
+      </div>
+
+      <!-- TIME SLOT -->
+      <div class="form-section">
+        <h3>🕐 Select Time Slot</h3>
+        <div class="slot-grid">
+          <div class="slot-btn selected" onclick="selectSlot(this, '05:00 AM')">
+            <span class="slot-time">05:00 AM</span>
+            <span class="slot-tag">Morning</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '06:30 AM')">
+            <span class="slot-time">06:30 AM</span>
+            <span class="slot-tag">Morning</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '09:00 AM')">
+            <span class="slot-time">09:00 AM</span>
+            <span class="slot-tag">Forenoon</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '11:30 AM')">
+            <span class="slot-time">11:30 AM</span>
+            <span class="slot-tag">Noon</span>
+          </div>
+          <div class="slot-btn full" onclick="">
+            <span class="slot-time">02:00 PM</span>
+            <span class="slot-tag">Full 🔒</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '04:30 PM')">
+            <span class="slot-time">04:30 PM</span>
+            <span class="slot-tag">Evening</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '06:00 PM')">
+            <span class="slot-time">06:00 PM</span>
+            <span class="slot-tag">Evening</span>
+          </div>
+          <div class="slot-btn" onclick="selectSlot(this, '08:30 PM')">
+            <span class="slot-time">08:30 PM</span>
+            <span class="slot-tag">Night</span>
+          </div>
+        </div>
+        <input type="hidden" name="time_slot" id="time_slot_input" value="05:00 AM"/>
+      </div>
+
+      <!-- SPECIAL REQUESTS -->
+      <div class="form-section">
+        <h3>📝 Special Requests (Optional)</h3>
+        <div class="field">
+          <label>Any special requirements or requests</label>
+          <textarea name="requests" placeholder="E.g., wheelchair access, senior citizen assistance..."></textarea>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- RIGHT: SUMMARY -->
+  <div class="summary-card">
+    <h3>Booking Summary</h3>
+
+    <div class="summary-temple">
+      <div class="summary-icon">🛕</div>
+      <div>
+        <div class="summary-name">Tirupati Balaji</div>
+        <div class="summary-loc">📍 Tirupati, Andhra Pradesh</div>
+      </div>
+    </div>
+
+    <div class="sum-row">
+      <span class="sum-label">Date</span>
+      <span class="sum-val highlight" id="sum-date">—</span>
+    </div>
+    <div class="sum-row">
+      <span class="sum-label">Time Slot</span>
+      <span class="sum-val highlight" id="sum-slot">05:00 AM</span>
+    </div>
+    <div class="sum-row">
+      <span class="sum-label">Darshan Type</span>
+      <span class="sum-val" id="sum-type">General</span>
+    </div>
+    <div class="sum-row">
+      <span class="sum-label">Devotees</span>
+      <span class="sum-val" id="sum-devotees">1</span>
+    </div>
+    <div class="sum-row">
+      <span class="sum-label">Price / Person</span>
+      <span class="sum-val" id="sum-price">Free</span>
+    </div>
+
+    <div class="total-row">
+      <span class="total-label">Total</span>
+      <span class="total-val" id="sum-total">Free</span>
+    </div>
+
+    <button type="submit" form="booking-form" class="confirm-btn" onclick="document.querySelector('form').submit();">
+      🙏 Confirm Booking
+    </button>
+    <p class="terms">By confirming, you agree to our <a href="#">Terms & Conditions</a></p>
+  </div>
+
+</div>
+
+<script>
+  function selectSlot(el, time) {
+    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('time_slot_input').value = time;
+    document.getElementById('sum-slot').textContent = time;
+  }
+
+  let pricePerPerson = 0;
+
+  function selectType(el, type, price) {
+    document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('darshan_type_input').value = type;
+    document.getElementById('sum-type').textContent = type;
+    pricePerPerson = price;
+    updateTotal();
+    document.getElementById('sum-price').textContent = price === 0 ? 'Free' : '₹ ' + price;
+  }
+
+  function updateTotal() {
+    const devotees = parseInt(document.querySelector('select[name="devotees"]').value) || 1;
+    document.getElementById('sum-devotees').textContent = devotees;
+    const total = pricePerPerson * devotees;
+    document.getElementById('sum-total').textContent = total === 0 ? 'Free' : '₹ ' + total;
+  }
+
+  document.querySelector('select[name="devotees"]').addEventListener('change', updateTotal);
+
+  document.querySelector('input[type="date"]').addEventListener('change', function() {
+    document.getElementById('sum-date').textContent = this.value || '—';
+  });
+</script>
+</body>
+</html>

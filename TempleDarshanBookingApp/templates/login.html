@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Temple Darshan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9922a;
+      --gold-light: #f0c96a;
+      --deep: #1a0a00;
+      --warm: #2e1a00;
+      --cream: #fdf6e3;
+      --muted: #a0876a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--deep);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Mandala background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(201,146,42,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse at 80% 20%, rgba(240,201,106,0.07) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 80%, rgba(201,146,42,0.07) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* Decorative diya dots */
+    body::after {
+      content: '✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      font-size: 1.1rem;
+      letter-spacing: 1.5rem;
+      color: rgba(201,146,42,0.15);
+      text-align: center;
+      padding: 1rem;
+      word-break: break-all;
+      line-height: 3rem;
+      pointer-events: none;
+      white-space: normal;
+    }
+
+    .card {
+      background: linear-gradient(160deg, #2e1a00 0%, #1a0a00 100%);
+      border: 1px solid rgba(201,146,42,0.35);
+      border-radius: 4px;
+      width: 420px;
+      max-width: 95vw;
+      padding: 3rem 2.5rem;
+      position: relative;
+      box-shadow: 0 0 80px rgba(201,146,42,0.12), 0 0 0 1px rgba(201,146,42,0.08);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Corner ornaments */
+    .card::before, .card::after {
+      content: '❖';
+      position: absolute;
+      color: var(--gold);
+      font-size: 1rem;
+      opacity: 0.5;
+    }
+    .card::before { top: 10px; left: 14px; }
+    .card::after  { bottom: 10px; right: 14px; }
+
+    .om {
+      text-align: center;
+      font-size: 2.8rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 0 30px rgba(240,201,106,0.5);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { text-shadow: 0 0 20px rgba(240,201,106,0.4); }
+      50%      { text-shadow: 0 0 45px rgba(240,201,106,0.8); }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 0.6rem 0 1.8rem;
+    }
+    .divider span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .divider i { color: var(--gold); font-style: normal; font-size: 0.75rem; }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.55rem;
+      text-align: center;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.2rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .field {
+      margin-bottom: 1.3rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,146,42,0.25);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,146,42,0.12);
+    }
+
+    input::placeholder { color: rgba(160,135,106,0.5); }
+
+    .forgot {
+      text-align: right;
+      margin-top: 0.4rem;
+    }
+    .forgot a {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .forgot a:hover { color: var(--gold-light); }
+
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      margin-top: 1.5rem;
+      background: linear-gradient(135deg, #c9922a 0%, #f0c96a 50%, #c9922a 100%);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 2px;
+      color: var(--deep);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-position 0.4s, transform 0.15s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(201,146,42,0.3);
+    }
+
+    .btn:hover {
+      background-position: right center;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(201,146,42,0.45);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .register-link {
+      text-align: center;
+      margin-top: 1.6rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .register-link a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .register-link a:hover { opacity: 0.75; }
+
+    .bottom-strip {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="om">ॐ</div>
+    <div class="divider"><span></span><i>✦</i><span></span></div>
+    <h1>Temple Darshan</h1>
+    <p class="subtitle">Darshan Booking Portal</p>
+
+    <form action="/login" method="POST">
+      <div class="field">
+        <label>Username / Email</label>
+        <input type="text" name="username" placeholder="Enter your username" required />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required />
+        <div class="forgot"><a href="#">Forgot password?</a></div>
+      </div>
+      <button type="submit" class="btn">🙏 Sign In</button>
+    </form>
+
+    <p class="register-link">New devotee? <a href="/register">Create an account</a></p>
+  </div>
+  <div class="bottom-strip"></div>
+</body>
+</html>

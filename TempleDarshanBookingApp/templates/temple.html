@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Temple Details – Temple Darshan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9922a;
+      --gold-light: #f0c96a;
+      --deep: #1a0a00;
+      --warm: #2e1a00;
+      --cream: #fdf6e3;
+      --muted: #a0876a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: 'Lato', sans-serif; background: var(--deep); color: var(--cream); }
+
+    nav {
+      background: linear-gradient(90deg, #1a0a00, #2e1a00, #1a0a00);
+      border-bottom: 1px solid rgba(201,146,42,0.3);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+    .nav-brand { font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 1.15rem; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav-brand span { color: var(--gold); font-size: 1.4rem; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-light); }
+    .back-btn { display: flex; align-items: center; gap: 0.4rem; color: var(--gold); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Cinzel', serif; transition: opacity 0.2s; }
+    .back-btn:hover { opacity: 0.7; }
+
+    /* HERO BANNER */
+    .temple-hero {
+      position: relative;
+      height: 340px;
+      background: linear-gradient(160deg, #3a2000, #5a3800, #2a1500);
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .temple-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,146,42,0.15) 0%, transparent 65%),
+                  linear-gradient(to bottom, transparent 40%, rgba(26,10,0,0.95));
+    }
+    .hero-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      font-size: 8rem;
+      opacity: 0.2;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 3rem;
+      width: 100%;
+    }
+    .hero-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,146,42,0.12);
+      border: 1px solid rgba(201,146,42,0.3);
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 2px;
+      margin-bottom: 0.8rem;
+    }
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.7);
+    }
+    .hero-loc { color: var(--muted); font-size: 0.9rem; letter-spacing: 0.06em; }
+
+    /* GOLD STRIP */
+    .gold-strip {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    }
+
+    /* CONTENT */
+    .content-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .content-wrap { grid-template-columns: 1fr; }
+    }
+
+    /* INFO PANEL */
+    .info-section h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(201,146,42,0.2);
+    }
+
+    .info-section p {
+      color: rgba(253,246,227,0.75);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .detail-item {
+      background: rgba(46,26,0,0.6);
+      border: 1px solid rgba(201,146,42,0.15);
+      border-radius: 3px;
+      padding: 1rem;
+    }
+    .detail-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .detail-value {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 0.9rem;
+    }
+
+    .timings {
+      margin-bottom: 2rem;
+    }
+    .timing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(201,146,42,0.08);
+      font-size: 0.85rem;
+    }
+    .timing-row:last-child { border-bottom: none; }
+    .timing-session { color: var(--muted); }
+    .timing-time { color: var(--cream); font-weight: 600; }
+
+    /* SIDEBAR BOOKING CARD */
+    .booking-sidebar {
+      background: linear-gradient(160deg, #2e1a00, #1a0a00);
+      border: 1px solid rgba(201,146,42,0.3);
+      border-radius: 3px;
+      padding: 2rem;
+      position: sticky;
+      top: 84px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .booking-sidebar h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .sidebar-sub { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; margin-bottom: 1.8rem; }
+
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.82rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; box-shadow: 0 0 6px #4caf50; animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .avail-text { color: #7ed87e; }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(201,146,42,0.08);
+      font-size: 0.85rem;
+    }
+    .price-row:last-of-type { border-bottom: none; margin-bottom: 1.5rem; }
+    .price-label { color: var(--muted); }
+    .price-val { color: var(--cream); font-weight: 600; }
+    .price-val.free { color: #7ed87e; }
+
+    .book-now-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #c9922a 0%, #f0c96a 50%, #c9922a 100%);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 2px;
+      color: var(--deep);
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-position 0.4s, transform 0.15s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(201,146,42,0.3);
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .book-now-btn:hover {
+      background-position: right center;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(201,146,42,0.45);
+    }
+
+    .sidebar-note {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand"><span>🛕</span> Temple Darshan</div>
+  <ul class="nav-links">
+    <li><a href="/home">Home</a></li>
+    <li><a href="/temples">Temples</a></li>
+    <li><a href="/bookings">My Bookings</a></li>
+  </ul>
+  <a href="/home" class="back-btn">← Back to Temples</a>
+</nav>
+
+<div class="temple-hero">
+  <div class="hero-icon">🛕</div>
+  <div class="hero-content">
+    <div class="hero-tag">Jyotirlinga</div>
+    <h1 class="hero-title">Tirupati Balaji Temple</h1>
+    <p class="hero-loc">📍 Tirumala, Tirupati, Andhra Pradesh</p>
+  </div>
+</div>
+<div class="gold-strip"></div>
+
+<div class="content-wrap">
+
+  <div class="left-col">
+
+    <div class="info-section">
+      <h2>About the Temple</h2>
+      <p>The Tirumala Venkateswara Temple is a famous Hindu temple situated on the Tirumala hills of Tirupati in Andhra Pradesh. The temple is dedicated to Venkateswara, a form of Vishnu, who is believed to have appeared here to save mankind from the trials of Kali Yuga.</p>
+      <p>The temple is one of the most visited pilgrimage centres in the world and the most visited religious site in India, with an estimated 50,000 to 100,000 pilgrims visiting daily.</p>
+    </div>
+
+    <div class="info-section">
+      <h2>Temple Information</h2>
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-label">Deity</div>
+          <div class="detail-value">Lord Venkateswara</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Location</div>
+          <div class="detail-value">Tirumala Hills</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Dress Code</div>
+          <div class="detail-value">Traditional Attire</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Photography</div>
+          <div class="detail-value">Not Allowed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section timings">
+      <h2>Darshan Timings</h2>
+      <div class="timing-row">
+        <span class="timing-session">🌅 Morning Darshan</span>
+        <span class="timing-time">5:00 AM – 8:00 AM</span>
+      </div>
+      <div class="timing-row">
+        <span class="timing-session">☀️ Afternoon Darshan</span>
+        <span class="timing-time">9:00 AM – 1:00 PM</span>
+      </div>
+      <div class="timing-row">
+        <span class="timing-session">🌆 Evening Darshan</span>
+        <span class="timing-time">3:00 PM – 7:00 PM</span>
+      </div>
+      <div class="timing-row">
+        <span class="timing-session">🌙 Night Darshan</span>
+        <span class="timing-time">8:00 PM – 10:00 PM</span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Guidelines for Devotees</h2>
+      <p>
+        ✦ Traditional attire is mandatory. Men should wear dhoti or pant-shirt; women should wear saree or salwar.<br/>
+        ✦ Mobile phones and cameras are strictly not allowed inside the sanctum.<br/>
+        ✦ Please maintain silence and decorum inside the temple premises.<br/>
+        ✦ Report 30 minutes before your booked darshan slot.<br/>
+        ✦ Carry a valid photo ID proof for verification at the entry gate.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="booking-sidebar">
+    <h3>Book Your Darshan</h3>
+    <p class="sidebar-sub">Select a slot to secure your sacred visit</p>
+
+    <div class="availability">
+      <div class="dot"></div>
+      <span class="avail-text">Slots Available Today</span>
+    </div>
+
+    <div class="price-row">
+      <span class="price-label">General Darshan</span>
+      <span class="price-val free">Free</span>
+    </div>
+    <div class="price-row">
+      <span class="price-label">Special Darshan</span>
+      <span class="price-val">₹ 300 / person</span>
+    </div>
+    <div class="price-row">
+      <span class="price-label">VIP Darshan</span>
+      <span class="price-val">₹ 500 / person</span>
+    </div>
+
+    <a href="/booking/1" class="book-now-btn">🙏 Book Darshan Now</a>
+    <p class="sidebar-note">✦ Instant confirmation &nbsp;|&nbsp; Free cancellation</p>
+  </div>
+
+</div>
+
+</body>
+</html>
